@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://bel3pb3q08mpt"]
+
+[ext_resource type="PackedScene" uid="uid://dkfn7ifugafh" path="res://Scene/Knight 2D.tscn" id="1_r73yw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8iwuv"]
+size = Vector2(1128.5, 37)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
+offset_left = 16.0
+offset_top = 463.0
+offset_right = 1144.0
+offset_bottom = 503.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(580, 483)
+shape = SubResource("RectangleShape2D_8iwuv")
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_r73yw")]
+position = Vector2(193, 354)
