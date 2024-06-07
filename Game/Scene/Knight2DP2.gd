@@ -51,17 +51,19 @@ func _physics_process(delta):
 				if $Knight2DP2.animation != "Attack":
 					$Knight2DP2.play("Idle")
 				
-		
-		if Input.is_action_just_pressed("Shift"):
+		if Input.is_action_just_pressed("Shift") and not $combat_animp2.is_playing():
 			if is_crouching:
 				$Knight2DP2.play("Crouch_Attack")
 			else:
 				$Knight2DP2.play("Attack")
-		elif Input.is_action_just_released("Shift"):
+				$combat_animp2.play("Attack")
+				print($combat_animp2.current_animation)
+		elif Input.is_action_just_released("Shift") and not $combat_animp2.is_playing():
 			if is_crouching:
 				$Knight2DP2.play("Crouch")
 			else:
 				$Knight2DP2.play("Idle")
+				$combat_animp2.play("RESET")
 
 		if Input.is_action_just_pressed("Arrow_Down"):
 			_crouch()

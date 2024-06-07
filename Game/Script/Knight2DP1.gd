@@ -7,6 +7,7 @@ extends CharacterBody2D
 	
 var is_crouching = false
 var is_live = true
+var is_attacking = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -50,19 +51,13 @@ func _physics_process(delta):
 				velocity.x = move_toward(velocity.x, 0, speed)
 				if $Knight2DP1.animation != "Attack":
 					$Knight2DP1.play("Idle")
-				
-		
-		if Input.is_action_just_pressed("Space"):
-			if is_crouching:
-				$Knight2DP1.play("Crouch_Attack")
-			else:
-				$Knight2DP1.play("Attack")
-		elif Input.is_action_just_released("Space"):
-			if is_crouching:
-				$Knight2DP1.play("Crouch")
-			else:
-				$Knight2DP1.play("Idle")
 
+		if Input.is_action_just_pressed("Space") and not $combat_animp1.is_playing():
+			is_attacking = true
+			_attack()
+		elif Input.is_action_just_released("Space") and not $combat_animp1.is_playing():
+			is_attacking = false
+			_attack()
 		if Input.is_action_just_pressed("S"):
 			_crouch()
 		elif Input.is_action_just_released("S"):
@@ -86,6 +81,20 @@ func _stand():
 	if is_crouching == false:
 		return
 	is_crouching = false
+	
+func _attack():
+	if is_attacking == true:
+		$combat_animp1.play("Attack")
+		$Knight2DP1.play("Attack")
+		return
+	elif is_attacking == false:
+		if is_crouching:
+			$Knight2DP1.play("Crouch")
+		else:
+			$Knight2DP1.play("Idle")
+			$combat_animp1.play("RESET")
+	is_attacking = false
+	
 
 func _die(area):
 	if area.has_meta("Spike"):
