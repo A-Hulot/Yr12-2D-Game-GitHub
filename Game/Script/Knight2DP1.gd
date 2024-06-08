@@ -53,11 +53,13 @@ func _physics_process(delta):
 					$Knight2DP1.play("Idle")
 
 		if Input.is_action_just_pressed("Space") and not $combat_animp1.is_playing():
-			is_attacking = true
 			_attack()
-		elif Input.is_action_just_released("Space") and not $combat_animp1.is_playing():
-			is_attacking = false
-			_attack()
+			print($combat_animp1.current_animation)
+		
+		if Input.is_action_just_released("Space"):
+			_reset_animation()
+			print("Not attacking")
+
 		if Input.is_action_just_pressed("S"):
 			_crouch()
 		elif Input.is_action_just_released("S"):
@@ -83,18 +85,21 @@ func _stand():
 	is_crouching = false
 	
 func _attack():
-	if is_attacking == true:
-		$combat_animp1.play("Attack")
+	is_attacking = true
+	if is_crouching:
+		$Knight2DP1.play("Crouch_Attack")
+	else:
 		$Knight2DP1.play("Attack")
-		return
-	elif is_attacking == false:
-		if is_crouching:
-			$Knight2DP1.play("Crouch")
-		else:
-			$Knight2DP1.play("Idle")
-			$combat_animp1.play("RESET")
+		$combat_animp1.play("Attack")
 	is_attacking = false
-	
+
+func _reset_animation():
+	await $combat_animp1.animation_finished
+	if is_crouching:
+		$Knight2DP1.play("Crouch")
+	else:
+		$Knight2DP1.play("Idle")
+		$combat_animp1.play("RESET")
 
 func _die(area):
 	if area.has_meta("Spike"):
