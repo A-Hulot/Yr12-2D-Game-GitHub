@@ -7,6 +7,7 @@ extends CharacterBody2D
 	
 var is_crouching = false
 var is_live = true
+var is_attacking = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -19,6 +20,12 @@ func _physics_process(delta):
 	# Handle jump.
 	if Input.is_action_just_pressed("Arrow_Up") and is_on_floor() and is_live:
 		velocity.y = jump_velocity
+
+	if is_attacking == false:
+		if is_crouching:
+			$Knight2DP2.play("Crouch")
+		else:
+			$Knight2DP2.play("Idle")
 
 	# Checks if the player is alive, if not alive, plays death animation and starts death timer
 	if is_live == true:
@@ -52,24 +59,15 @@ func _physics_process(delta):
 					$Knight2DP2.play("Idle")
 				
 		if Input.is_action_just_pressed("Shift") and not $combat_animp2.is_playing():
-			if is_crouching:
-				$Knight2DP2.play("Crouch_Attack")
-			else:
-				$Knight2DP2.play("Attack")
-				$combat_animp2.play("Attack")
-				print($combat_animp2.current_animation)
-		elif Input.is_action_just_released("Shift") and not $combat_animp2.is_playing():
-			if is_crouching:
-				$Knight2DP2.play("Crouch")
-			else:
-				$Knight2DP2.play("Idle")
-				$combat_animp2.play("RESET")
-
+			_attack()
+				
+		if Input.is_action_just_released("Shift"):
+			_reset_animation()
+			
 		if Input.is_action_just_pressed("Arrow_Down"):
 			_crouch()
 		elif Input.is_action_just_released("Arrow_Down"):
 			_stand()
-
 		move_and_slide()
 	else:
 		$Knight2DP2.play("Death")
@@ -89,10 +87,32 @@ func _stand():
 		return
 	is_crouching = false
 
+# Sets attacking variable so attack animations play then returns it back to default 'false'
+func _attack():
+	is_attacking = true
+	if is_crouching:
+		$Knight2DP2.play("Crouch_Attack")
+		return
+	else:
+		$Knight2DP2.play("Attack")
+		$combat_animp2.play("Attack")
+		return
+
+# Waits for the animaption player to finish then plays the default animations 'idle' & 'crouch' and also resetting the animation hitbox
+func _reset_animation():
+	await $combat_animp2.animation_finished
+	if is_crouching:
+		$Knight2DP2.play("Crouch")
+	else:
+		$Knight2DP2.play("Idle")
+		$combat_animp2.play("RESET")
+
+# Detects for spike then sets the player to not alive and starts a death timer
 func _die(area):
 	if area.has_meta("Spike"):
 		is_live = false
 		death_timer2.start(0.6)
-		
+
+# Resets scene when the timer 
 func _on_death_timer_2_timeout():
 	get_tree().reload_current_scene()

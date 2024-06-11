@@ -20,7 +20,13 @@ func _physics_process(delta):
 	# Handle jump.
 	if Input.is_action_just_pressed("W") and is_on_floor() and is_live:
 		velocity.y = jump_velocity
-
+	
+	if is_attacking == false:
+		if is_crouching:
+			$Knight2DP1.play("Crouch")
+		else:
+			$Knight2DP1.play("Idle")
+	
 	# Checks if the player is alive, if not alive, plays death animation and starts death timer
 	if is_live == true:
 		var direction = Input.get_axis("A", "D")
@@ -54,11 +60,9 @@ func _physics_process(delta):
 
 		if Input.is_action_just_pressed("Space") and not $combat_animp1.is_playing():
 			_attack()
-			print($combat_animp1.current_animation)
 		
 		if Input.is_action_just_released("Space"):
 			_reset_animation()
-			print("Not attacking")
 
 		if Input.is_action_just_pressed("S"):
 			_crouch()
@@ -91,7 +95,6 @@ func _attack():
 	else:
 		$Knight2DP1.play("Attack")
 		$combat_animp1.play("Attack")
-	is_attacking = false
 
 func _reset_animation():
 	await $combat_animp1.animation_finished
