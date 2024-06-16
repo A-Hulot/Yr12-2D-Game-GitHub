@@ -13,6 +13,7 @@ var is_attacking = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _physics_process(delta):
+		
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -20,17 +21,24 @@ func _physics_process(delta):
 	# Handle jump.
 	if Input.is_action_just_pressed("Arrow_Up") and is_on_floor() and is_live:
 		velocity.y = jump_velocity
-
-	if is_attacking == false:
-		if is_crouching:
-			$Knight2DP2.play("Crouch")
-		else:
-			$Knight2DP2.play("Idle")
-
+	
 	# Checks if the player is alive, if not alive, plays death animation and starts death timer
 	if is_live == true:
 		var direction = Input.get_axis("Arrow_Left", "Arrow_Right")
 		velocity.x = move_toward(velocity.x, 0, speed)
+		
+		if is_attacking == false:
+			if is_crouching:
+				if direction != 0:
+					velocity.x = direction * speed * 0.5
+					$Knight2DP2.play("Crouch_Walk")
+				else:
+					$Knight2DP2.play("Crouch")
+			else: 
+				if direction != 0:
+					$Knight2DP2.play("Run")
+				else:
+					$Knight2DP2.play("Idle")
 		
 		if direction != 0:
 			$Knight2DP2.scale.x = abs($Knight2DP2.scale.x) * direction
@@ -62,7 +70,7 @@ func _physics_process(delta):
 			_attack()
 				
 		if Input.is_action_just_released("Shift"):
-			_reset_animation()
+				_reset_animation()
 			
 		if Input.is_action_just_pressed("Arrow_Down"):
 			_crouch()
@@ -92,15 +100,14 @@ func _attack():
 	is_attacking = true
 	if is_crouching:
 		$Knight2DP2.play("Crouch_Attack")
-		return
 	else:
 		$Knight2DP2.play("Attack")
 		$combat_animp2.play("Attack")
-		return
 
 # Waits for the animaption player to finish then plays the default animations 'idle' & 'crouch' and also resetting the animation hitbox
 func _reset_animation():
 	await $combat_animp2.animation_finished
+	is_attacking = false
 	if is_crouching:
 		$Knight2DP2.play("Crouch")
 	else:
