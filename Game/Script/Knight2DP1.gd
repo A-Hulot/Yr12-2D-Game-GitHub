@@ -1,6 +1,5 @@
 extends CharacterBody2D
 
-
 @export var speed = 300.0
 @export var jump_velocity = -400.0
 @onready var death_timer = $DeathTimer
@@ -78,7 +77,7 @@ func _physics_process(delta):
 			_stand()
 		move_and_slide()
 	else:
-		$Knight2DP1.play("Death")
+		$combat_animp1.play("Death")
 		if death_timer.is_stopped():
 			death_timer.start()
 		return
