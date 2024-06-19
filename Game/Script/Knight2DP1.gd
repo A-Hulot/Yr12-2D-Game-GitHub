@@ -3,6 +3,7 @@ extends CharacterBody2D
 @export var speed = 300.0
 @export var jump_velocity = -400.0
 @onready var death_timer = $DeathTimer
+@onready var anim_p = $Animation_Player1
 	
 var is_crouching = false
 var is_live = true
@@ -30,42 +31,42 @@ func _physics_process(delta):
 			if is_crouching:
 				if direction != 0:
 					velocity.x = direction * speed * 0.5
-					$Knight2DP1.play("Crouch_Walk")
+					anim_p.play("Crouch_Walk")
 				else:
-					$Knight2DP1.play("Crouch")
+					anim_p.play("Crouch")
 			else: 
 				if direction != 0:
-					$Knight2DP1.play("Run")
+					anim_p.play("Run")
 				else:
-					$Knight2DP1.play("Idle")
+					anim_p.play("Idle")
 		
 		if direction != 0:
-			$Knight2DP1.scale.x = abs($Knight2DP1.scale.x) * direction
+			$Knight2D.scale.x = abs($Knight2D.scale.x) * direction
 			
 		# Handles movement and animation based on whether character is crouching
 		if is_crouching:
 			if direction != 0: # Chekcs if the player is moving and crouching
 				velocity.x = direction * speed * 0.5 # Changed velocity to half
 				#If animation isn't 'Crouch_Attack', plays 'Crouch_Walk'
-				if $Knight2DP1.animation != "Crouch_Attack":
-					$Knight2DP1.play("Crouch_Walk")
+				if anim_p.current_animation != "Crouch_Attack":
+					anim_p.play("Crouch_Walk")
 			else:
 				# When not moving and crouching
 				velocity.x = 0
 				# Checks if animation isn't 'Crouch_Attack', plays 'Crouch' animation
-				if $Knight2DP1.animation != "Crouch_Attack":
-					$Knight2DP1.play("Crouch")
+				if anim_p.current_animation != "Crouch_Attack":
+					anim_p.play("Crouch")
 		else: # If not crouching, animation for character when standing
 			if direction != 0: 
 				velocity.x = direction * speed
-				if $Knight2DP1.animation != "Attack":
-					$Knight2DP1.play("Run")
+				if anim_p.current_animation != "Attack":
+					anim_p.play("Run")
 			else:
 				velocity.x = move_toward(velocity.x, 0, speed)
-				if $Knight2DP1.animation != "Attack":
-					$Knight2DP1.play("Idle")
+				if anim_p.current_animation != "Attack":
+					anim_p.play("Idle")
 				
-		if Input.is_action_just_pressed("Space") and not $combat_animp1.is_playing():
+		if Input.is_action_just_pressed("Space"):
 			_attack()
 				
 		if Input.is_action_just_released("Space"):
@@ -77,7 +78,7 @@ func _physics_process(delta):
 			_stand()
 		move_and_slide()
 	else:
-		$combat_animp1.play("Death")
+		anim_p.play("Death")
 		if death_timer.is_stopped():
 			death_timer.start()
 		return
@@ -98,20 +99,18 @@ func _stand():
 func _attack():
 	is_attacking = true
 	if is_crouching:
-		$Knight2DP1.play("Crouch_Attack")
+		anim_p.play("Crouch_Attack")
 	else:
-		$Knight2DP1.play("Attack")
-		$combat_animp1.play("Attack")
+		anim_p.play("Attack")
 
 # Waits for the animaption player to finish then plays the default animations 'idle' & 'crouch' and also resetting the animation hitbox
 func _reset_animation():
-	await $combat_animp1.animation_finished
+	await anim_p.animation_finished
 	is_attacking = false
 	if is_crouching:
-		$Knight2DP1.play("Crouch")
+		anim_p.play("Crouch")
 	else:
-		$Knight2DP1.play("Idle")
-		$combat_animp1.play("RESET")
+		anim_p.play("RESET")
 
 # Detects for spike then sets the player to not alive and starts a death timer
 func _die(area):
