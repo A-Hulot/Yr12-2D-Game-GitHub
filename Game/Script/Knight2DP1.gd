@@ -4,13 +4,22 @@ extends CharacterBody2D
 @export var jump_velocity = -400.0
 @onready var death_timer = $DeathTimer
 @onready var anim_p = $Animation_Player1
-	
+
+var max_hp = 400
+var current_hp
 var is_crouching = false
 var is_live = true
 var is_attacking = false
+var damage = 90
+
+signal hit
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+func _ready():
+	get_node("Animation_Player1").play("Idle")
+	current_hp = max_hp
 
 func _physics_process(delta):
 		
@@ -112,11 +121,23 @@ func _reset_animation():
 	else:
 		anim_p.play("RESET")
 
+func _on_hit(damage):
+	current_hp -= damage
+	get_node("HP").value = int((float(current_hp) / max_hp) * 100)
+	if current_hp <= 0:
+		_death()
+	
 # Detects for spike then sets the player to not alive and starts a death timer
 func _die(area):
 	if area.has_meta("Spike"):
-		is_live = false
-		death_timer.start(0.6)
+		emit_signal("hit")
+		_death()
+	if area.has_meta("Sword2"):
+		_on_hit(damage)
+
+func _death():
+	is_live = false
+	death_timer.start(0.6)
 
 # Resets scene when the timer 
 func _on_death_timer_timeout():

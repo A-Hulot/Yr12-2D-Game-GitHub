@@ -1,9 +1,11 @@
-[gd_scene load_steps=23 format=3 uid="uid://dkfn7ifugafh"]
+[gd_scene load_steps=25 format=3 uid="uid://dkfn7ifugafh"]
 
 [ext_resource type="Script" path="res://Script/Knight2DP1.gd" id="1_iephy"]
 [ext_resource type="Texture2D" uid="uid://d0p3trsciyqdj" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_Idle.png" id="2_6jm6g"]
 [ext_resource type="Texture2D" uid="uid://yd3d5ceush6y" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_Attack.png" id="2_17030"]
+[ext_resource type="Texture2D" uid="uid://ccgxjb2f8r0vh" path="res://Characters/HEALTH METERS/health meter-17.png" id="2_f8dme"]
 [ext_resource type="Texture2D" uid="uid://bjp5cayxfd5kr" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_CrouchFull.png" id="3_601gi"]
+[ext_resource type="Texture2D" uid="uid://csgql16k6x1a8" path="res://Characters/HEALTH METERS/health meter-02.png" id="3_hxaf5"]
 [ext_resource type="Texture2D" uid="uid://djica41i4k11t" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_CrouchAttack.png" id="4_6be28"]
 [ext_resource type="Texture2D" uid="uid://ckh58cwl7hfdm" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_CrouchWalk.png" id="4_20o3t"]
 [ext_resource type="Texture2D" uid="uid://c2lpagfvtroj8" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_Run.png" id="4_kg6o1"]
@@ -922,6 +924,18 @@ size = Vector2(25, 56)
 [node name="CharacterBody2D" type="CharacterBody2D"]
 script = ExtResource("1_iephy")
 
+[node name="HP" type="TextureProgressBar" parent="."]
+offset_left = -40.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = -30.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("2_f8dme")
+texture_over = ExtResource("3_hxaf5")
+texture_progress = ExtResource("2_f8dme")
+tint_under = Color(0.423529, 0.423529, 0.423529, 1)
+
 [node name="Knight2D" type="Sprite2D" parent="."]
 position = Vector2(5.99999, -31)
 scale = Vector2(1.5, 1.5)
@@ -932,6 +946,7 @@ hframes = 10
 position = Vector2(4, 14)
 rotation = 0.346069
 scale = Vector2(0.666667, 0.666667)
+metadata/Sword = true
 
 [node name="sword_collision_shape" type="CollisionShape2D" parent="Knight2D/Sword_Area"]
 position = Vector2(-39, 1)
@@ -939,6 +954,7 @@ shape = SubResource("RectangleShape2D_s7fkp")
 disabled = true
 
 [node name="Crouch_Sword_Area" type="Area2D" parent="Knight2D"]
+metadata/Sword = true
 
 [node name="Crouch_Sword_Collision_Shape" type="CollisionShape2D" parent="Knight2D/Crouch_Sword_Area"]
 position = Vector2(12.6667, 26.6667)
