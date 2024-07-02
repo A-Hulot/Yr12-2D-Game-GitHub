@@ -12,6 +12,9 @@ size = Vector2(401, 16)
 
 [node name="Node2D" type="Node2D"]
 
+[node name="Spike" parent="." instance=ExtResource("2_12bgt")]
+position = Vector2(573, 442)
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D"]
@@ -25,21 +28,6 @@ color = Color(0, 1, 0, 1)
 position = Vector2(580, 483)
 shape = SubResource("RectangleShape2D_8iwuv")
 
-[node name="Knight2DP1" parent="." instance=ExtResource("1_r73yw")]
-position = Vector2(193, 354)
-
-[node name="DeathTimer" type="Timer" parent="Knight2DP1"]
-one_shot = true
-
-[node name="Area2D" parent="." instance=ExtResource("2_12bgt")]
-position = Vector2(573, 442)
-
-[node name="Knight2DP2" parent="." instance=ExtResource("3_y01et")]
-position = Vector2(281, 351)
-
-[node name="DeathTimer2" type="Timer" parent="Knight2DP2"]
-one_shot = true
-
 [node name="StaticBody2D2" type="StaticBody2D" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="StaticBody2D2"]
@@ -52,6 +40,18 @@ color = Color(0, 1, 0, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
 position = Vector2(902.5, 407)
 shape = SubResource("RectangleShape2D_kse12")
+
+[node name="Knight2DP1" parent="." instance=ExtResource("1_r73yw")]
+position = Vector2(193, 354)
+
+[node name="DeathTimer" type="Timer" parent="Knight2DP1"]
+one_shot = true
+
+[node name="Knight2DP2" parent="." instance=ExtResource("3_y01et")]
+position = Vector2(281, 351)
+
+[node name="DeathTimer2" type="Timer" parent="Knight2DP2"]
+one_shot = true
 
 [connection signal="timeout" from="Knight2DP1/DeathTimer" to="Knight2DP1" method="_on_death_timer_timeout"]
 [connection signal="timeout" from="Knight2DP2/DeathTimer2" to="Knight2DP2" method="_on_death_timer_2_timeout"]

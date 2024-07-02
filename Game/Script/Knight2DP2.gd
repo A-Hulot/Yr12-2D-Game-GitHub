@@ -17,6 +17,7 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
 	get_node("Animation_Player2").play("Idle")
+	anim_p.play("Idle")
 	current_hp2 = max_hp2
 
 func _physics_process(delta):
@@ -119,7 +120,7 @@ func _reset_animation():
 func _on_hit():
 	current_hp2 -= damage
 	get_node("HP2").value = int((float(current_hp2) / max_hp2) * 100 )
-	if current_hp2 <= 0:
+	if current_hp2 <= 0 and is_live:
 		_death()
 
 # Detects for spike then sets the player to not alive and starts a death timer
