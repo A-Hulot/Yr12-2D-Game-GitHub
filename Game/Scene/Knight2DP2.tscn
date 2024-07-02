@@ -1,6 +1,6 @@
 [gd_scene load_steps=25 format=3 uid="uid://b7ugjknurx3xo"]
 
-[ext_resource type="Script" path="res://Scene/Knight2DP2.gd" id="1_c3apy"]
+[ext_resource type="Script" path="res://Script/Knight2DP2.gd" id="1_c3apy"]
 [ext_resource type="Texture2D" uid="uid://ju0qbs6ioxga" path="res://Characters/Knight/Colour2/Outline/120x80_PNGSheets/_Idle.png" id="1_tt21b"]
 [ext_resource type="Texture2D" uid="uid://dh308t3cnfvv7" path="res://Characters/Knight/Colour2/Outline/120x80_PNGSheets/_Attack.png" id="1_v38br"]
 [ext_resource type="Texture2D" uid="uid://bu05etrqfpspa" path="res://Characters/HEALTH METERS/health meter-01.png" id="2_q1qnr"]

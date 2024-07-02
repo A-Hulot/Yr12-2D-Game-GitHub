@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bel3pb3q08mpt"]
+[gd_scene load_steps=6 format=3 uid="uid://bel3pb3q08mpt"]
 
 [ext_resource type="PackedScene" uid="uid://dkfn7ifugafh" path="res://Scene/Knight2DP1.tscn" id="1_r73yw"]
 [ext_resource type="PackedScene" uid="uid://jul6c8wrb0jy" path="res://Scene/Spike.tscn" id="2_12bgt"]
@@ -6,6 +6,9 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8iwuv"]
 size = Vector2(1128.5, 37)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kse12"]
+size = Vector2(401, 16)
 
 [node name="Node2D" type="Node2D"]
 
@@ -16,6 +19,7 @@ offset_left = 16.0
 offset_top = 463.0
 offset_right = 1144.0
 offset_bottom = 503.0
+color = Color(0, 1, 0, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
 position = Vector2(580, 483)
@@ -34,6 +38,20 @@ position = Vector2(573, 442)
 position = Vector2(281, 351)
 
 [node name="DeathTimer2" type="Timer" parent="Knight2DP2"]
+one_shot = true
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="StaticBody2D2"]
+offset_left = 702.0
+offset_top = 399.0
+offset_right = 1103.0
+offset_bottom = 415.0
+color = Color(0, 1, 0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+position = Vector2(902.5, 407)
+shape = SubResource("RectangleShape2D_kse12")
 
 [connection signal="timeout" from="Knight2DP1/DeathTimer" to="Knight2DP1" method="_on_death_timer_timeout"]
 [connection signal="timeout" from="Knight2DP2/DeathTimer2" to="Knight2DP2" method="_on_death_timer_2_timeout"]

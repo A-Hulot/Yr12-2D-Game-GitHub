@@ -20,6 +20,7 @@ size = Vector2(50.6667, 22.6667)
 [sub_resource type="Animation" id="Animation_x17o6"]
 resource_name = "Attack"
 length = 0.4
+step = 1.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -926,15 +927,16 @@ script = ExtResource("1_iephy")
 
 [node name="HP" type="TextureProgressBar" parent="."]
 offset_left = -40.0
-offset_top = -40.0
+offset_top = 34.0
 offset_right = 40.0
-offset_bottom = -30.0
+offset_bottom = 44.0
 value = 100.0
 nine_patch_stretch = true
 texture_under = ExtResource("2_f8dme")
 texture_over = ExtResource("3_hxaf5")
 texture_progress = ExtResource("2_f8dme")
 tint_under = Color(0.423529, 0.423529, 0.423529, 1)
+metadata/_edit_use_anchors_ = true
 
 [node name="Knight2D" type="Sprite2D" parent="."]
 position = Vector2(5.99999, -31)

@@ -10,7 +10,7 @@ var current_hp2
 var is_crouching = false
 var is_live = true
 var is_attacking = false
-var damage = 90
+var damage = 50
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -83,12 +83,9 @@ func _physics_process(delta):
 			_crouch()
 		elif Input.is_action_just_released("Arrow_Down"):
 			_stand()
-		move_and_slide()
 	else:
-		anim_p.play("Death")
-		if death_timer2.is_stopped():
-			death_timer2.start()
-		return
+		_death()
+	move_and_slide()
 
 # Sets crouching to true or false, default is false
 func _crouch():
@@ -119,7 +116,7 @@ func _reset_animation():
 	else:
 		anim_p.play("RESET")
 
-func _on_hit(damage):
+func _on_hit():
 	current_hp2 -= damage
 	get_node("HP2").value = int((float(current_hp2) / max_hp2) * 100 )
 	if current_hp2 <= 0:
@@ -130,11 +127,14 @@ func _die(area):
 	if area.has_meta("Spike"):
 		_death()
 	if area.has_meta("Sword"):
-		_on_hit(damage)
+		_on_hit()
 
 func _death():
-	is_live = false
-	death_timer2.start(0.6)
+	if is_live:
+		is_live = false
+		death_timer2.start(0.6)
+		anim_p.play("Death")
+		velocity.x = 0
 
 # Resets scene when the timer 
 func _on_death_timer_2_timeout():
