@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bel3pb3q08mpt"]
+[gd_scene load_steps=10 format=3 uid="uid://bel3pb3q08mpt"]
 
 [ext_resource type="PackedScene" uid="uid://dkfn7ifugafh" path="res://Scene/Knight2DP1.tscn" id="1_kgvwf"]
 [ext_resource type="PackedScene" uid="uid://b7ugjknurx3xo" path="res://Scene/Knight2DP2.tscn" id="2_t6ils"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://binbw6o45rwpd" path="res://Assets/Scenes-assets/forest-nature-fantasy-tileset-free/Fantasy Swamp Forest/Free/BG_1/BG_1.png" id="4_whwhh"]
 [ext_resource type="Texture2D" uid="uid://bu7d5n3n61a0j" path="res://Assets/Scenes-assets/forest-nature-fantasy-tileset-free/Fantasy Swamp Forest/Free/BG_2/BG_2.png" id="5_wvb8c"]
 [ext_resource type="Texture2D" uid="uid://cy4f2ufj7ldaw" path="res://Assets/Scenes-assets/forest-nature-fantasy-tileset-free/Fantasy Swamp Forest/Free/BG_3/BG_3.png" id="6_ttw5k"]
+[ext_resource type="Texture2D" uid="uid://ccgxjb2f8r0vh" path="res://Characters/HEALTH METERS/health meter-17.png" id="7_68ncm"]
+[ext_resource type="Script" path="res://Scene/HealthBar.gd" id="9_xknny"]
+[ext_resource type="Script" path="res://Scene/HealthBar2.gd" id="11_fswbr"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -47,6 +50,42 @@ z_index = -4
 position = Vector2(107.625, 326)
 scale = Vector2(1.233, 1.635)
 texture = ExtResource("6_ttw5k")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HP" type="TextureProgressBar" parent="CanvasLayer" node_paths=PackedStringArray("player")]
+anchors_preset = -1
+anchor_right = 0.0928819
+anchor_bottom = 0.0354938
+offset_left = 18.0
+offset_top = 20.0
+offset_right = 71.0
+offset_bottom = 17.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("7_68ncm")
+texture_progress = ExtResource("7_68ncm")
+tint_under = Color(0.423529, 0.423529, 0.423529, 1)
+script = ExtResource("9_xknny")
+player = NodePath("../../Knight2DP1")
+metadata/_edit_use_anchors_ = true
+
+[node name="HP2" type="TextureProgressBar" parent="CanvasLayer" node_paths=PackedStringArray("player")]
+anchors_preset = -1
+anchor_left = -0.0694444
+anchor_bottom = 0.037037
+offset_left = 1057.0
+offset_top = 20.0
+offset_right = 1137.0
+offset_bottom = 16.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = ExtResource("7_68ncm")
+texture_progress = ExtResource("7_68ncm")
+tint_under = Color(0.423529, 0.423529, 0.423529, 1)
+script = ExtResource("11_fswbr")
+player = NodePath("../../Knight2DP2")
+metadata/_edit_use_anchors_ = true
 
 [connection signal="timeout" from="Knight2DP1/DeathTimer" to="Knight2DP1" method="_on_death_timer_timeout"]
 [connection signal="timeout" from="Knight2DP2/DeathTimer2" to="Knight2DP2" method="_on_death_timer_2_timeout"]

@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal healthChanged2
+
 @export var speed = 300.0
 @export var jump_velocity = -400.0
 @onready var death_timer2 = $DeathTimer2
@@ -8,8 +10,9 @@ extends CharacterBody2D
 @onready var crouch_raycast2 = $Crouch_RayCast2
 @onready var coyote_timer = $CoyoteTimer
 
-var max_hp2 = 400
-var current_hp2
+@export var max_hp2 = 400
+@onready var current_hp2: int = max_hp2
+
 var damage = 50
 var is_crouching = false
 var is_live = true
@@ -135,7 +138,7 @@ func _reset_animation():
 
 func _on_hit():
 	current_hp2 -= damage
-	get_node("HP2").value = int((float(current_hp2) / max_hp2) * 100 )
+	healthChanged2.emit()
 	if current_hp2 <= 0 and is_live:
 		_death()
 
