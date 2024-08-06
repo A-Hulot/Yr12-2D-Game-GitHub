@@ -4,6 +4,9 @@ extends CharacterBody2D
 @export var jump_velocity = -400.0
 @onready var death_timer = $DeathTimer
 @onready var anim_p = $Animation_Player1
+@onready var crouch_raycast1 = $Crouch_RayCast
+@onready var crouch_raycast2 = $Crouch_RayCast2
+@onready var coyote_timer = $CoyoteTimer
 
 var max_hp = 400
 var current_hp
@@ -11,6 +14,7 @@ var damage = 50
 var is_crouching = false
 var is_live = true
 var is_attacking = false
+var object_above = false
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -27,9 +31,10 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# Handle jump.
-	if Input.is_action_just_pressed("W") and is_on_floor() and is_live:
-		velocity.y = jump_velocity
-	
+	if is_on_floor or coyote_timer.time_left > 0.0:
+		if Input.is_action_just_pressed("W") and is_live:
+			velocity.y = jump_velocity
+		
 	# Checks if the player is alive, if not alive, plays death animation and starts death timer
 	if is_live == true:
 		var direction = Input.get_axis("A", "D")
@@ -83,11 +88,23 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("S"):
 			_crouch()
 		elif Input.is_action_just_released("S"):
+			if _not_under_object():
+				_stand()
+			else:
+				object_above = true
+		
+		if object_above and _not_under_object():
 			_stand()
+			object_above = false
+		
 	else:
 		_death()
-	move_and_slide()
-
+	
+	var was_on_floor = is_on_floor()
+	move_and_slide()	
+	if was_on_floor and not is_on_floor() and velocity.y >= 0:
+		coyote_timer.start()
+	
 # Sets crouching to true or false, default is false
 func _crouch():
 	if is_crouching:
@@ -125,8 +142,6 @@ func _on_hit():
 	
 # Detects for spike then sets the player to not alive and starts a death timer
 func _die(area):
-	if area.has_meta("Spike"):
-		_death()
 	if area.has_meta("Sword2"):
 		_on_hit()
 
@@ -140,3 +155,7 @@ func _death():
 # Resets scene when the timer 
 func _on_death_timer_timeout():
 	get_tree().reload_current_scene()
+
+func _not_under_object() -> bool:
+	var result = !crouch_raycast1.is_colliding() and !crouch_raycast2.is_colliding()
+	return result
