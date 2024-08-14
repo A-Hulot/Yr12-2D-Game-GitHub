@@ -1,0 +1,248 @@
+[gd_scene load_steps=8 format=3 uid="uid://5lioan38yhiu"]
+
+[ext_resource type="PackedScene" uid="uid://ddke5rsfquuoy" path="res://Scene/hotkey_rebind_button.tscn" id="1_fi5qp"]
+[ext_resource type="StyleBox" uid="uid://ctmr8bnaogdbx" path="res://Themes/Styleboxes/Tabs.tres" id="1_mgpqn"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4skpi"]
+bg_color = Color(0.411765, 0.286275, 0.207843, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.898039, 0.764706, 0.454902, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbwee"]
+bg_color = Color(0.784314, 0.647059, 0.321569, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybhy3"]
+bg_color = Color(0.411765, 0.286275, 0.207843, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.898039, 0.764706, 0.454902, 1)
+border_blend = true
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_liv2v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7n0np"]
+
+[node name="Settings_Tab_Container" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TabContainer" type="TabContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 90.0
+offset_top = 50.0
+offset_right = -90.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 0
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_4skpi")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_pbwee")
+theme_override_styles/tab_focus = ExtResource("1_mgpqn")
+theme_override_styles/panel = SubResource("StyleBoxFlat_ybhy3")
+tab_alignment = 1
+current_tab = 2
+all_tabs_in_front = true
+tab_focus_mode = 1
+
+[node name="Sound" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Sound"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sound/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Label" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sound 1"
+
+[node name="Label2" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sound 2
+"
+
+[node name="Label3" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sound 3"
+
+[node name="Label4" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sound 4"
+
+[node name="Label5" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Sound 5"
+
+[node name="Graphics" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Graphics"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Graphics/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Label" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Label2" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Label3" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Label4" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Label5" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Controls" type="TabBar" parent="TabContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Controls"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Controls/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Controls/MarginContainer/ScrollContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+
+[node name="HSeparator" type="HSeparator" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+theme_override_styles/separator = SubResource("StyleBoxEmpty_liv2v")
+
+[node name="Hotkey_Rebind_Button" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+
+[node name="Hotkey_Rebind_Button2" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Move_right"
+
+[node name="Hotkey_Rebind_Button3" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Jump"
+
+[node name="Hotkey_Rebind_Button4" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Crouch"
+
+[node name="Hotkey_Rebind_Button5" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Move_left2"
+
+[node name="Hotkey_Rebind_Button6" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Move_right2"
+
+[node name="Hotkey_Rebind_Button7" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Jump2"
+
+[node name="Hotkey_Rebind_Button8" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Crouch2"
+
+[node name="HSeparator2" type="HSeparator" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+theme_override_styles/separator = SubResource("StyleBoxEmpty_7n0np")
+
+[node name="Accesibility" type="TabBar" parent="TabContainer"]
+visible = false
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Accesibility"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 24
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Accesibility/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 64
+alignment = 1
+
+[node name="Label" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Label2" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Label3" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Label4" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"
+
+[node name="Label5" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "1234"

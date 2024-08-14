@@ -34,12 +34,12 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	if is_on_floor() or coyote_timer.time_left > 0.0:
-		if Input.is_action_just_pressed("Arrow_Up") and is_live:
+		if Input.is_action_just_pressed("Jump2") and is_live:
 			velocity.y = jump_velocity
 
 	# Checks if the player is alive, if not alive, plays death animation and starts death timer
 	if is_live == true:
-		var direction = Input.get_axis("Arrow_Left", "Arrow_Right")
+		var direction = Input.get_axis("Move_left2", "Move_right2")
 		velocity.x = move_toward(velocity.x, 0, speed)
 		
 		if is_attacking == false:
@@ -81,15 +81,15 @@ func _physics_process(delta):
 				if anim_p.current_animation != "Attack":
 					anim_p.play("Idle")
 				
-		if Input.is_action_just_pressed("Shift"):
+		if Input.is_action_just_pressed("Attack2"):
 			_attack()
 				
-		if Input.is_action_just_released("Shift"):
+		if Input.is_action_just_released("Attack2"):
 				_reset_animation()
 			
-		if Input.is_action_just_pressed("Arrow_Down"):
+		if Input.is_action_just_pressed("Crouch2"):
 			_crouch()
-		elif Input.is_action_just_released("Arrow_Down"):
+		elif Input.is_action_just_released("Crouch2"):
 			if _not_under_object():
 				_stand()
 			else:

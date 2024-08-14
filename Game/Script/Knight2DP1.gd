@@ -34,13 +34,13 @@ func _physics_process(delta):
 		velocity.y += gravity * delta
 
 	# Handle jump.
-	if is_on_floor or coyote_timer.time_left > 0.0:
-		if Input.is_action_just_pressed("W") and is_live:
+	if is_on_floor() or coyote_timer.time_left > 0.0:
+		if Input.is_action_just_pressed("Jump") and is_live:
 			velocity.y = jump_velocity
 		
 	# Checks if the player is alive, if not alive, plays death animation and starts death timer
 	if is_live == true:
-		var direction = Input.get_axis("A", "D")
+		var direction = Input.get_axis("Move_left", "Move_right")
 		velocity.x = move_toward(velocity.x, 0, speed)
 		
 		if is_attacking == false:
@@ -82,15 +82,15 @@ func _physics_process(delta):
 				if anim_p.current_animation != "Attack":
 					anim_p.play("Idle")
 				
-		if Input.is_action_just_pressed("Space"):
+		if Input.is_action_just_pressed("Attack"):
 			_attack()
 				
-		if Input.is_action_just_released("Space"):
+		if Input.is_action_just_released("Attack"):
 			_reset_animation()
 			
-		if Input.is_action_just_pressed("S"):
+		if Input.is_action_just_pressed("Crouch"):
 			_crouch()
-		elif Input.is_action_just_released("S"):
+		elif Input.is_action_just_released("Crouch"):
 			if _not_under_object():
 				_stand()
 			else:
@@ -105,8 +105,11 @@ func _physics_process(delta):
 	
 	var was_on_floor = is_on_floor()
 	move_and_slide()	
-	if was_on_floor and not is_on_floor() and velocity.y >= 0:
+	if was_on_floor and not is_on_floor() and velocity.y >= 0.0:
 		coyote_timer.start()
+	
+	if not is_on_floor() and coyote_timer.time_left <= 0:
+		pass
 	
 # Sets crouching to true or false, default is false
 func _crouch():
