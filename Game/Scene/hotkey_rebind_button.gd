@@ -8,7 +8,7 @@ extends Control
 @export var action_name : String = "Move_left"
 
 func _ready():
-	set_process_unhandled_input(false)
+	set_process_unhandled_key_input(false)
 	set_action_name()
 	set_text_for_key()
 
@@ -20,19 +20,23 @@ func set_action_name() -> void:
 		"Move_left":
 			label.text = "Move Left (Player 1)"
 		"Move_right":
-			label.text = "Move RIght (Player 1)"
+			label.text = "Move Right (Player 1)"
 		"Jump":
 			label.text = "Jump (Player 1)"
 		"Crouch":
 			label.text = "Crouch (Player 1)"
+		"Attack":
+			label.text = "Attack (Player 1)"
 		"Move_left2":
 			label.text = "Move Left (Player 2)"
 		"Move_right2":
-			label.text = "Move RIght (Player 2)"
+			label.text = "Move Right (Player 2)"
 		"Jump2":
 			label.text = "Jump (Player 2)"
 		"Crouch2":
 			label.text = "Crouch (Player 2)"
+		"Attack2":
+			label.text = "Attack (Player 2)"
 
 
 func set_text_for_key() -> void:

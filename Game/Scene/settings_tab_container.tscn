@@ -1,18 +1,15 @@
 [gd_scene load_steps=8 format=3 uid="uid://5lioan38yhiu"]
 
+[ext_resource type="StyleBox" uid="uid://cfss3em12u87f" path="res://Scene/Tab_select.tres" id="1_axwvb"]
 [ext_resource type="PackedScene" uid="uid://ddke5rsfquuoy" path="res://Scene/hotkey_rebind_button.tscn" id="1_fi5qp"]
-[ext_resource type="StyleBox" uid="uid://ctmr8bnaogdbx" path="res://Themes/Styleboxes/Tabs.tres" id="1_mgpqn"]
+[ext_resource type="StyleBox" uid="uid://c7mae7o8h363x" path="res://Themes/Styleboxes/Tab_focus.tres" id="3_t3rtm"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4skpi"]
-bg_color = Color(0.411765, 0.286275, 0.207843, 1)
-border_width_left = 1
-border_width_top = 1
-border_width_right = 1
-border_width_bottom = 1
-border_color = Color(0.898039, 0.764706, 0.454902, 1)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pbwee"]
-bg_color = Color(0.784314, 0.647059, 0.321569, 1)
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j7xps"]
+content_margin_left = 8.0
+content_margin_top = 7.0
+content_margin_right = 6.0
+content_margin_bottom = 7.0
+bg_color = Color(0.898039, 0.764706, 0.454902, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybhy3"]
 bg_color = Color(0.411765, 0.286275, 0.207843, 1)
@@ -51,9 +48,9 @@ offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/outline_size = 0
-theme_override_styles/tab_selected = SubResource("StyleBoxFlat_4skpi")
-theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_pbwee")
-theme_override_styles/tab_focus = ExtResource("1_mgpqn")
+theme_override_styles/tab_selected = ExtResource("1_axwvb")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_j7xps")
+theme_override_styles/tab_focus = ExtResource("3_t3rtm")
 theme_override_styles/panel = SubResource("StyleBoxFlat_ybhy3")
 tab_alignment = 1
 current_tab = 2
@@ -185,6 +182,10 @@ action_name = "Jump"
 layout_mode = 2
 action_name = "Crouch"
 
+[node name="Hotkey_Rebind_Button9" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Attack"
+
 [node name="Hotkey_Rebind_Button5" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
 layout_mode = 2
 action_name = "Move_left2"
@@ -200,6 +201,10 @@ action_name = "Jump2"
 [node name="Hotkey_Rebind_Button8" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
 layout_mode = 2
 action_name = "Crouch2"
+
+[node name="Hotkey_Rebind_Button10" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Attack2"
 
 [node name="HSeparator2" type="HSeparator" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
