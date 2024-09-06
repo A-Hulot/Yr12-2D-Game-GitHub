@@ -1,15 +1,38 @@
-[gd_scene load_steps=9 format=3 uid="uid://bjywsybb4eq7d"]
+[gd_scene load_steps=12 format=3 uid="uid://bjywsybb4eq7d"]
 
 [ext_resource type="Script" path="res://Script/Menu.gd" id="1_clqjf"]
-[ext_resource type="Theme" uid="uid://cduh81d67qsd1" path="res://Themes/Main Theme.tres" id="2_hx1s8"]
+[ext_resource type="SystemFont" uid="uid://dgcoeyhbvgwfu" path="res://Themes/Title Font.tres" id="2_7b2o2"]
 [ext_resource type="Texture2D" uid="uid://p7f3crjll3g4" path="res://Assets/Scenes-assets/generic/generic/bg_7/bg_7_0000_layer_0.png" id="3_4nsnf"]
 [ext_resource type="Texture2D" uid="uid://cgm5tansj48qf" path="res://Assets/Scenes-assets/generic/generic/bg_7/bg_7_0001_layer_1.png" id="4_5rgey"]
 [ext_resource type="Texture2D" uid="uid://b3lrspq60mha6" path="res://Assets/Scenes-assets/generic/generic/bg_7/bg_7_0002_layer_2.png" id="5_8itjb"]
 [ext_resource type="Texture2D" uid="uid://ob1b7nmt5yj3" path="res://Assets/Scenes-assets/generic/generic/bg_7/bg_7_0003_layer_3.png" id="6_yengn"]
 [ext_resource type="PackedScene" uid="uid://bgm3idcquxa4c" path="res://Scene/Options.tscn" id="7_0xk7b"]
+[ext_resource type="AudioStream" uid="uid://dbs1m2khuwghy" path="res://Assets/Sound/706052__m-murray__rpg-shop-village-theme.wav" id="8_0jl3w"]
+[ext_resource type="PackedScene" uid="uid://ct81tkd231a4a" path="res://Scene/Credits.tscn" id="8_2r37n"]
 
-[sub_resource type="SystemFont" id="SystemFont_1lntr"]
-font_names = PackedStringArray("Impact")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_poiqo"]
+bg_color = Color(0.411765, 0.286275, 0.207843, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.886275, 0.752941, 0.45098, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qiwsf"]
+bg_color = Color(0.490196, 0.345098, 0.254902, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0.886275, 0.752941, 0.45098, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -37,11 +60,12 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0.886275, 0.752941, 0.45098, 1)
+theme_override_colors/font_outline_color = Color(0.27451, 0.27451, 0.27451, 1)
 theme_override_constants/outline_size = 20
-theme_override_fonts/font = SubResource("SystemFont_1lntr")
-theme_override_font_sizes/font_size = 60
-text = "Game Title"
+theme_override_fonts/font = ExtResource("2_7b2o2")
+theme_override_font_sizes/font_size = 79
+text = "TwoKnight"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -63,23 +87,42 @@ layout_mode = 2
 [node name="Play_button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
-theme = ExtResource("2_hx1s8")
+theme_override_colors/font_color = Color(0.980392, 0.85098, 0.611765, 1)
+theme_override_fonts/font = ExtResource("2_7b2o2")
 theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_poiqo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qiwsf")
 text = "Play"
 
 [node name="Options_button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
-theme = ExtResource("2_hx1s8")
+theme_override_colors/font_color = Color(0.980392, 0.85098, 0.611765, 1)
+theme_override_fonts/font = ExtResource("2_7b2o2")
 theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_poiqo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qiwsf")
 text = "Options
 "
+
+[node name="Credits_button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+texture_filter = 1
+layout_mode = 2
+theme_override_colors/font_color = Color(0.980392, 0.85098, 0.611765, 1)
+theme_override_fonts/font = ExtResource("2_7b2o2")
+theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_poiqo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qiwsf")
+text = "Credits"
 
 [node name="Exit_button" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 texture_filter = 1
 layout_mode = 2
-theme = ExtResource("2_hx1s8")
+theme_override_colors/font_color = Color(0.980392, 0.85098, 0.611765, 1)
+theme_override_fonts/font = ExtResource("2_7b2o2")
 theme_override_font_sizes/font_size = 35
+theme_override_styles/normal = SubResource("StyleBoxFlat_poiqo")
+theme_override_styles/hover = SubResource("StyleBoxFlat_qiwsf")
 text = "Exit"
 
 [node name="Bg70000Layer0" type="Sprite2D" parent="."]
@@ -110,5 +153,15 @@ scale = Vector2(0.791209, 0.794118)
 texture = ExtResource("6_yengn")
 
 [node name="Options" parent="." instance=ExtResource("7_0xk7b")]
+visible = false
+layout_mode = 1
+
+[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_0jl3w")
+volume_db = -10.297
+autoplay = true
+bus = &"Music"
+
+[node name="Credits" parent="." instance=ExtResource("8_2r37n")]
 visible = false
 layout_mode = 1

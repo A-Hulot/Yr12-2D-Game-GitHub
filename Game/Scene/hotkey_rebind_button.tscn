@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ddke5rsfquuoy"]
 
-[ext_resource type="Script" path="res://Scene/hotkey_rebind_button.gd" id="1_bq7ej"]
+[ext_resource type="Script" path="res://Script/hotkey_rebind_button.gd" id="1_ee1kr"]
 
 [node name="Hotkey_Rebind_Button" type="Control" groups=["hotkey.button"]]
 layout_mode = 3
@@ -9,7 +9,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_bq7ej")
+script = ExtResource("1_ee1kr")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 layout_mode = 1

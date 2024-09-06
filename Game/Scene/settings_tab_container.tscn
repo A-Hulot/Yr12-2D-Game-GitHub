@@ -1,15 +1,57 @@
-[gd_scene load_steps=8 format=3 uid="uid://5lioan38yhiu"]
+[gd_scene load_steps=11 format=3 uid="uid://blqhlpmebqdlq"]
 
-[ext_resource type="StyleBox" uid="uid://cfss3em12u87f" path="res://Scene/Tab_select.tres" id="1_axwvb"]
 [ext_resource type="PackedScene" uid="uid://ddke5rsfquuoy" path="res://Scene/hotkey_rebind_button.tscn" id="1_fi5qp"]
+[ext_resource type="Script" path="res://Script/settings_tab_container.gd" id="1_ssnb6"]
+[ext_resource type="PackedScene" uid="uid://bry470e6dlmcj" path="res://Scene/audio_slider_settings.tscn" id="3_hx6pa"]
 [ext_resource type="StyleBox" uid="uid://c7mae7o8h363x" path="res://Themes/Styleboxes/Tab_focus.tres" id="3_t3rtm"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j7xps"]
-content_margin_left = 8.0
-content_margin_top = 7.0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4cuq7"]
+content_margin_left = 6.0
+content_margin_top = 5.0
 content_margin_right = 6.0
-content_margin_bottom = 7.0
-bg_color = Color(0.898039, 0.764706, 0.454902, 1)
+content_margin_bottom = 4.0
+bg_color = Color(0.509804, 0.364706, 0.270588, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color(0.886275, 0.752941, 0.45098, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hr15q"]
+content_margin_left = 6.0
+content_margin_top = 5.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.498039, 0.352941, 0.262745, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color(0.886275, 0.752941, 0.45098, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_bottom = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ay7us"]
+content_margin_left = 6.0
+content_margin_top = 5.0
+content_margin_right = 6.0
+content_margin_bottom = 4.0
+bg_color = Color(0.317647, 0.215686, 0.152941, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_color = Color(0.886275, 0.752941, 0.45098, 1)
+corner_radius_top_left = 2
+corner_radius_top_right = 2
+corner_radius_bottom_right = 2
+corner_radius_bottom_left = 2
+expand_margin_bottom = 1.0
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ybhy3"]
 bg_color = Color(0.411765, 0.286275, 0.207843, 1)
@@ -35,6 +77,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_ssnb6")
 
 [node name="TabContainer" type="TabContainer" parent="."]
 layout_mode = 1
@@ -48,17 +91,16 @@ offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/outline_size = 0
-theme_override_styles/tab_selected = ExtResource("1_axwvb")
-theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_j7xps")
+theme_override_styles/tab_selected = SubResource("StyleBoxFlat_4cuq7")
+theme_override_styles/tab_hovered = SubResource("StyleBoxFlat_hr15q")
+theme_override_styles/tab_unselected = SubResource("StyleBoxFlat_ay7us")
 theme_override_styles/tab_focus = ExtResource("3_t3rtm")
 theme_override_styles/panel = SubResource("StyleBoxFlat_ybhy3")
 tab_alignment = 1
-current_tab = 2
 all_tabs_in_front = true
 tab_focus_mode = 1
 
 [node name="Sound" type="TabBar" parent="TabContainer"]
-visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Sound"]
@@ -73,74 +115,27 @@ theme_override_constants/margin_top = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 24
 
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sound/MarginContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TabContainer/Sound/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Sound/MarginContainer/ScrollContainer"]
 layout_mode = 2
 theme_override_constants/separation = 64
 alignment = 1
 
-[node name="Label" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Sound 1"
-
-[node name="Label2" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Sound 2
-"
-
-[node name="Label3" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Sound 3"
-
-[node name="Label4" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Sound 4"
-
-[node name="Label5" type="Label" parent="TabContainer/Sound/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "Sound 5"
-
-[node name="Graphics" type="TabBar" parent="TabContainer"]
-visible = false
+[node name="Audio_Slider_Settings" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_hx6pa")]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Graphics"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Graphics/MarginContainer"]
+[node name="Audio_Slider_Settings2" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_hx6pa")]
 layout_mode = 2
-theme_override_constants/separation = 64
-alignment = 1
+bus_name = "Music"
 
-[node name="Label" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
+[node name="Audio_Slider_Settings3" parent="TabContainer/Sound/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("3_hx6pa")]
 layout_mode = 2
-text = "1234"
-
-[node name="Label2" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
-
-[node name="Label3" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
-
-[node name="Label4" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
-
-[node name="Label5" type="Label" parent="TabContainer/Graphics/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
+bus_name = "Sfx"
 
 [node name="Controls" type="TabBar" parent="TabContainer"]
+visible = false
 layout_mode = 2
 
 [node name="MarginContainer" type="MarginContainer" parent="TabContainer/Controls"]
@@ -186,6 +181,10 @@ action_name = "Crouch"
 layout_mode = 2
 action_name = "Attack"
 
+[node name="Hotkey_Rebind_Button12" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Roll"
+
 [node name="Hotkey_Rebind_Button5" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
 layout_mode = 2
 action_name = "Move_left2"
@@ -206,48 +205,11 @@ action_name = "Crouch2"
 layout_mode = 2
 action_name = "Attack2"
 
+[node name="Hotkey_Rebind_Button11" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer" instance=ExtResource("1_fi5qp")]
+layout_mode = 2
+action_name = "Roll2"
+
 [node name="HSeparator2" type="HSeparator" parent="TabContainer/Controls/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 12
 theme_override_styles/separator = SubResource("StyleBoxEmpty_7n0np")
-
-[node name="Accesibility" type="TabBar" parent="TabContainer"]
-visible = false
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="TabContainer/Accesibility"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 24
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TabContainer/Accesibility/MarginContainer"]
-layout_mode = 2
-theme_override_constants/separation = 64
-alignment = 1
-
-[node name="Label" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
-
-[node name="Label2" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
-
-[node name="Label3" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
-
-[node name="Label4" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
-
-[node name="Label5" type="Label" parent="TabContainer/Accesibility/MarginContainer/VBoxContainer"]
-layout_mode = 2
-text = "1234"
