@@ -11,7 +11,9 @@ signal healthChanged
 @onready var audio_stream_player_2d_jump = $AudioStreamPlayer2D_Jump
 @onready var audio_stream_player_2d_attack = $AudioStreamPlayer2D_Attack
 @onready var global = get_node("/root/Global")
+@onready var dust = preload("res://Scene/Dust.tscn")
 @onready var current_hp: int = max_hp
+@onready var flash_timer = $Knight2D/flashTimer
 
 @export var max_hp = 400
 
@@ -23,21 +25,31 @@ var object_above = false
 var is_rolling = false
 var can_take_damage = true
 var double_jump = true
+var is_grounded = true
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
 	get_node("Animation_Player1").play("Idle")
 	anim_p.play("Idle")
 	current_hp = max_hp
+	$Knight2D.material.set_shader_parameter("flash_modifier", 0)
 
 func _physics_process(delta: float) -> void:
+	
+	if is_grounded == false and is_on_floor() == true:
+		var instance = dust.instantiate()
+		instance.global_position = $Marker2D.global_position
+		get_parent().add_child(instance)
+		
+	is_grounded = is_on_floor()
+	
 	# Apply gravity if not on the floor
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
 	# Jumping logic
 	if is_on_floor() or coyote_timer.time_left > 0.0:
-		if Input.is_action_just_pressed("Jump") and is_live:
+		if Input.is_action_just_pressed("Jump") and is_live and global.canmove == true:
 			velocity.y = jump_velocity
 			audio_stream_player_2d_jump.play()
 			double_jump = true
@@ -55,35 +67,37 @@ func _physics_process(delta: float) -> void:
 
 	# Movement and attacking logic
 	if is_live:
-		var direction = Input.get_axis("Move_left", "Move_right")
+		if global.canmove == true:
+			var direction = Input.get_axis("Move_left", "Move_right")
 
-		# Set horizontal velocity
-		if is_attacking:
-			velocity.x = 0
-		else:
-			if is_crouching:
-				velocity.x = direction * speed * 0.5
-				anim_p.play("Crouch_Walk" if direction != 0 else "Crouch")
+			# Set horizontal velocity
+			if is_attacking:
+				velocity.x = 0
 			else:
-				velocity.x = direction * speed
-				if is_rolling:
-					pass
-				elif direction != 0:
-					anim_p.play("Run")
+				if is_crouching:
+					velocity.x = direction * speed * 0.5
+					anim_p.play("Crouch_Walk" if direction != 0 else "Crouch")
 				else:
-					anim_p.play("Idle")
+					velocity.x = direction * speed
+					if is_rolling:
+						pass
+					elif direction != 0:
+						anim_p.play("Run")
+					else:
+						anim_p.play("Idle")
 
-		# Flip the character based on movement direction
-		if direction != 0:
-			$Knight2D.scale.x = abs($Knight2D.scale.x) * direction
+			# Flip the character based on movement direction
+			if direction != 0:
+				$Knight2D.scale.x = abs($Knight2D.scale.x) * direction
 
 		# Handle attack input
 		if Input.is_action_just_pressed("Attack") and not is_attacking:
 			_attack()
 			audio_stream_player_2d_attack.play()
-
-		if Input.is_action_just_released("Attack"):
 			await anim_p.animation_finished
+			is_attacking = false
+
+		if Input.is_action_just_released("Attack") and not is_attacking:
 			_reset_animation()
 
 		# Handle crouch input
@@ -150,7 +164,6 @@ func _attack():
 		anim_p.play("Attack")
 
 func _reset_animation():
-	await anim_p.animation_finished
 	is_attacking = false
 	if is_crouching:
 		anim_p.play("Crouch")
@@ -168,8 +181,13 @@ func _on_hit():
 	if can_take_damage == true:
 		current_hp -= damage
 		healthChanged.emit()
+		flash()
 		if current_hp <= 0 and is_live:
 			_death()
+
+func flash():
+	$Knight2D.material.set_shader_parameter("flash_modifier", 1)
+	flash_timer.start()
 
 func _die(area):
 	if area.has_meta("Sword2"):
@@ -184,6 +202,7 @@ func _death():
 		is_live = false
 		anim_p.play("Death")
 		velocity.x = 0
+		global.score2 += 1
 		await anim_p.animation_finished
 		if global.lives >= 0:
 			global.lives -= 1
@@ -192,6 +211,7 @@ func _death():
 		elif global.lives < 0:
 			_respawn()
 			global.lives = 3
+			global.score2 = 0
 			print("died died like actually died for reals")
 
 func _not_under_object() -> bool:
@@ -209,3 +229,6 @@ func _respawn():
 	healthChanged.emit()
 	position = Vector2(65, 342)
 	anim_p.play("RESET")
+
+func _on_flash_timer_timeout():
+	$Knight2D.material.set_shader_parameter("flash_modifier", 0)

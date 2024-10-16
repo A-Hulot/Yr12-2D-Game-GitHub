@@ -8,6 +8,7 @@ extends Control
 @onready var credits_button = $MarginContainer/HBoxContainer/VBoxContainer/Credits_button
 @onready var margin_container = $MarginContainer
 @onready var credits = $Credits
+@onready var button_stream_player = $ButtonStreamPlayer
 
 @onready var start_level = preload("res://Scene/Level1.tscn")
 
@@ -19,6 +20,7 @@ func _ready():
 	credits.visible = false
 
 func on_play_button_pressed() -> void:
+	get_tree().paused = false
 	get_tree().change_scene_to_file("res://Scene/Level1.tscn")
 
 
@@ -26,25 +28,29 @@ func on_options_button_pressed() -> void:
 	margin_container.visible = false
 	options.set_process(true)
 	options.visible = true
+	button_stream_player.play()
 
 func on_credits_button_pressed() -> void:
 	margin_container.visible = false
 	credits.set_process(true)
 	credits.visible = true
-	
+	button_stream_player.play()
 
 func on_exit_button_pressed() -> void:
 	get_tree().quit()
+	button_stream_player.play()
 
 func on_exit_options() -> void:
 	margin_container.visible = true
 	options.visible = false
 	credits.visible = false
+	button_stream_player.play()
 
 func on_exit_credits() -> void:
 	margin_container.visible = true
 	options.visible = false
 	credits.visible = false
+	button_stream_player.play()
 
 func handle_connecting_signals() -> void:
 	play_button.button_down.connect(on_play_button_pressed)

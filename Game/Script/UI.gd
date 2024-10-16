@@ -1,5 +1,8 @@
-extends Node2D
+extends CanvasLayer
 
+@onready var global = get_node("/root/Global")
+@onready var p1_score = $"P1 Score"
+@onready var p2_score = $"P2 Score"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -8,5 +11,5 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_just_pressed("Jump"):
-		$CPUParticles2D.emmitting = true
+	p1_score.text = (str(global.score))
+	p2_score.text = (str(global.score2))

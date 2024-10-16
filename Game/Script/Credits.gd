@@ -1,6 +1,6 @@
 extends Control
 
-@onready var exit_button = $MarginContainer/VBoxContainer/Exit_Button
+@onready var exit_button = $Exit_Button
 
 signal exit_credits_menu
 

@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://dkfn7ifugafh"]
+[gd_scene load_steps=29 format=3 uid="uid://dkfn7ifugafh"]
 
 [ext_resource type="Script" path="res://Script/Knight2DP1.gd" id="1_iephy"]
+[ext_resource type="Shader" path="res://Themes/flash.gdshader" id="2_2u8l3"]
 [ext_resource type="Texture2D" uid="uid://yd3d5ceush6y" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_Attack.png" id="4_w8u8p"]
 [ext_resource type="Texture2D" uid="uid://cn41jby1v6g05" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_Crouch.png" id="5_pfb1v"]
 [ext_resource type="Texture2D" uid="uid://djica41i4k11t" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_CrouchAttack.png" id="6_1bmrb"]
@@ -11,6 +12,12 @@
 [ext_resource type="AudioStream" uid="uid://c1iw86n5gsc4d" path="res://Assets/Sound/667297__pekena_larva__voc_male_jump_05.wav" id="9_yoitc"]
 [ext_resource type="Texture2D" uid="uid://c2lpagfvtroj8" path="res://Characters/Knight/Colour1/Outline/120x80_PNGSheets/_Run.png" id="10_ctxrm"]
 [ext_resource type="AudioStream" uid="uid://ck2a3ltb0ff0a" path="res://Assets/Sound/263595__porkmuncher__swoosh.wav" id="10_smc6g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dpt6l"]
+resource_local_to_scene = true
+shader = ExtResource("2_2u8l3")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s7fkp"]
 size = Vector2(43.4912, 7.86491)
@@ -992,7 +999,8 @@ size = Vector2(25, 56)
 script = ExtResource("1_iephy")
 
 [node name="Knight2D" type="Sprite2D" parent="."]
-position = Vector2(5.99999, -31)
+material = SubResource("ShaderMaterial_dpt6l")
+position = Vector2(7, -31)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("9_304cu")
 hframes = 10
@@ -1015,6 +1023,9 @@ metadata/Sword = true
 position = Vector2(12.6667, 26.6667)
 shape = SubResource("RectangleShape2D_amj5i")
 disabled = true
+
+[node name="flashTimer" type="Timer" parent="Knight2D"]
+wait_time = 0.075
 
 [node name="Animation_Player1" type="AnimationPlayer" parent="."]
 libraries = {
@@ -1055,5 +1066,10 @@ bus = &"Sfx"
 [node name="AudioStreamPlayer2D_Attack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_smc6g")
 
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0, 7)
+scale = Vector2(2.6, 2.6)
+
+[connection signal="timeout" from="Knight2D/flashTimer" to="." method="_on_flash_timer_timeout"]
 [connection signal="animation_finished" from="Animation_Player1" to="." method="_on_animation_finished"]
 [connection signal="area_entered" from="Hit_detection" to="." method="_die"]

@@ -83,5 +83,3 @@ func rebind_action_key(event) -> void:
 	set_process_unhandled_key_input(false)
 	set_text_for_key()
 	set_action_name()
-
-	

@@ -1,0 +1,82 @@
+[gd_scene load_steps=10 format=3 uid="uid://dckgm6jmxd7jt"]
+
+[ext_resource type="Texture2D" uid="uid://bacaewedfxn1" path="res://Assets/dust1.png" id="1_ksbue"]
+[ext_resource type="Texture2D" uid="uid://bey4shifyrf75" path="res://Assets/dust2.png" id="2_l78tc"]
+[ext_resource type="Texture2D" uid="uid://m7re02if3glp" path="res://Assets/dust3.png" id="3_gxga0"]
+[ext_resource type="Texture2D" uid="uid://bkwch76e4rboa" path="res://Assets/dust4.png" id="4_84ju0"]
+[ext_resource type="Script" path="res://Script/Dust.gd" id="5_tfq3k"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3m35y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ksbue")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_l78tc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_gxga0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_84ju0")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[sub_resource type="Animation" id="Animation_4qjfx"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_o0d63"]
+resource_name = "start"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.882353), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mceup"]
+_data = {
+"RESET": SubResource("Animation_4qjfx"),
+"start": SubResource("Animation_o0d63")
+}
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D"]
+texture_filter = 1
+position = Vector2(2.38419e-07, 2.38419e-07)
+scale = Vector2(3.1975, 3.1975)
+sprite_frames = SubResource("SpriteFrames_3m35y")
+autoplay = "default"
+frame = 3
+frame_progress = 1.0
+script = ExtResource("5_tfq3k")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mceup")
+}
+autoplay = "start"
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

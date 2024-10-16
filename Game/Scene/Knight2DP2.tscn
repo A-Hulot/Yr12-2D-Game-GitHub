@@ -1,6 +1,7 @@
-[gd_scene load_steps=27 format=3 uid="uid://b7ugjknurx3xo"]
+[gd_scene load_steps=29 format=3 uid="uid://b7ugjknurx3xo"]
 
 [ext_resource type="Script" path="res://Script/Knight2DP2.gd" id="1_c3apy"]
+[ext_resource type="Shader" path="res://Themes/flash.gdshader" id="2_6h3u7"]
 [ext_resource type="Texture2D" uid="uid://ju0qbs6ioxga" path="res://Characters/Knight/Colour2/Outline/120x80_PNGSheets/_Idle.png" id="4_fu0hc"]
 [ext_resource type="Texture2D" uid="uid://dh308t3cnfvv7" path="res://Characters/Knight/Colour2/Outline/120x80_PNGSheets/_Attack.png" id="5_ialsi"]
 [ext_resource type="Texture2D" uid="uid://hwofcanc4rko" path="res://Characters/Knight/Colour2/Outline/120x80_PNGSheets/_Crouch.png" id="6_e7l8m"]
@@ -11,6 +12,11 @@
 [ext_resource type="Texture2D" uid="uid://b2l16tjm650dq" path="res://Characters/Knight/Colour2/Outline/120x80_PNGSheets/_Run.png" id="10_llfqj"]
 [ext_resource type="AudioStream" uid="uid://c1iw86n5gsc4d" path="res://Assets/Sound/667297__pekena_larva__voc_male_jump_05.wav" id="10_yafu6"]
 [ext_resource type="AudioStream" uid="uid://ck2a3ltb0ff0a" path="res://Assets/Sound/263595__porkmuncher__swoosh.wav" id="11_jkib6"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xd43m"]
+shader = ExtResource("2_6h3u7")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ns4h4"]
 size = Vector2(42.0488, 10.1945)
@@ -995,7 +1001,7 @@ _data = {
 size = Vector2(14, 56)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_go37m"]
-size = Vector2(15, 36)
+size = Vector2(15, 37)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yamlp"]
 size = Vector2(23, 56)
@@ -1004,6 +1010,7 @@ size = Vector2(23, 56)
 script = ExtResource("1_c3apy")
 
 [node name="Knight2D2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_xd43m")
 position = Vector2(5, -30)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("4_fu0hc")
@@ -1029,6 +1036,9 @@ position = Vector2(12.6667, 26.6667)
 shape = SubResource("RectangleShape2D_d3rti")
 disabled = true
 
+[node name="flashTimer" type="Timer" parent="Knight2D2"]
+wait_time = 0.075
+
 [node name="Animation_Player2" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_c5n2y")
@@ -1041,7 +1051,7 @@ shape = SubResource("RectangleShape2D_ahcnn")
 disabled = true
 
 [node name="Crouching_Collision_Shape" type="CollisionShape2D" parent="."]
-position = Vector2(2.5, 11)
+position = Vector2(2.5, 11.5)
 shape = SubResource("RectangleShape2D_go37m")
 disabled = true
 
@@ -1072,5 +1082,10 @@ bus = &"Sfx"
 [node name="AudioStreamPlayer2D_Attack" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("11_jkib6")
 
+[node name="Marker2D" type="Marker2D" parent="."]
+position = Vector2(0, 7)
+scale = Vector2(2.6, 2.6)
+
+[connection signal="timeout" from="Knight2D2/flashTimer" to="." method="_on_flash_timer_timeout"]
 [connection signal="animation_finished" from="Animation_Player2" to="." method="_on_animation_finished"]
 [connection signal="area_entered" from="Hit_detection" to="." method="_die"]

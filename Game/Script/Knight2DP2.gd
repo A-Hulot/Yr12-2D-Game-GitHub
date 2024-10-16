@@ -11,7 +11,9 @@ signal healthChanged2
 @onready var audio_stream_player_2d_jump = $AudioStreamPlayer2D_Jump
 @onready var audio_stream_player_2d_attack = $AudioStreamPlayer2D_Attack
 @onready var global = get_node("/root/Global")
+@onready var dust = preload("res://Scene/Dust.tscn")
 @onready var current_hp2: int = max_hp2
+@onready var flash_timer = $Knight2D2/flashTimer
 
 @export var max_hp2 = 400
 
@@ -23,22 +25,31 @@ var object_above = false
 var is_rolling = false
 var can_take_damage = true
 var double_jump = true
-
+var is_grounded = true
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
 	get_node("Animation_Player2").play("Idle")
 	anim_p.play("Idle")
 	current_hp2 = max_hp2
+	$Knight2D2.material.set_shader_parameter("flash_modifier", 0)
 
 func _physics_process(delta: float) -> void:
-	# Apply gravity if on floor
+	
+	if is_grounded == false and is_on_floor() == true:
+		var instance = dust.instantiate()
+		instance.global_position = $Marker2D.global_position
+		get_parent().add_child(instance)
+		
+	is_grounded = is_on_floor()
+	
+	# Apply gravity if not on the on floor
 	if not is_on_floor():
 		velocity.y += gravity * delta
 
 	# Jumping logic
 	if is_on_floor() or coyote_timer.time_left > 0.0:
-		if Input.is_action_just_pressed("Jump2") and is_live:
+		if Input.is_action_just_pressed("Jump2") and is_live and global.canmove == true:
 			velocity.y = jump_velocity
 			audio_stream_player_2d_jump.play()
 			double_jump = true
@@ -56,35 +67,37 @@ func _physics_process(delta: float) -> void:
 
 	# Movement and attacking logic
 	if is_live:
-		var direction = Input.get_axis("Move_left2", "Move_right2")
+		if global.canmove == true:
+			var direction = Input.get_axis("Move_left2", "Move_right2")
 
-		# Set horizontal velocity
-		if is_attacking:
-			velocity.x = 0
-		else:
-			if is_crouching:
-				velocity.x = direction * speed * 0.5
-				anim_p.play("Crouch_Walk" if direction != 0 else "Crouch")
+			# Set horizontal velocity
+			if is_attacking:
+				velocity.x = 0
 			else:
-				velocity.x = direction * speed
-				if is_rolling:
-					pass
-				elif direction != 0:
-					anim_p.play("Run")
+				if is_crouching:
+					velocity.x = direction * speed * 0.5
+					anim_p.play("Crouch_Walk" if direction != 0 else "Crouch")
 				else:
-					anim_p.play("Idle")
+					velocity.x = direction * speed
+					if is_rolling:
+						pass
+					elif direction != 0:
+						anim_p.play("Run")
+					else:
+						anim_p.play("Idle")
 
-		# Flip the character based on movement direction
-		if direction != 0:
-			$Knight2D2.scale.x = abs($Knight2D2.scale.x) * direction
+			# Flip the character based on movement direction
+			if direction != 0:
+				$Knight2D2.scale.x = abs($Knight2D2.scale.x) * direction
 
 		# Handle attack input
 		if Input.is_action_just_pressed("Attack2") and not is_attacking:
 			_attack()
 			audio_stream_player_2d_attack.play()
-
-		if Input.is_action_just_released("Attack2"):
 			await anim_p.animation_finished
+			is_attacking = false
+
+		if Input.is_action_just_released("Attack2") and not is_attacking:
 			_reset_animation()
 
 		# Handle crouch input
@@ -119,7 +132,7 @@ func _physics_process(delta: float) -> void:
 	# Move the character
 	var was_on_floor = is_on_floor()
 	move_and_slide()
-	if was_on_floor and not is_on_floor() and velocity.y >=0:
+	if was_on_floor and not is_on_floor() and velocity.y >= 0.0:
 		coyote_timer.start()
 
 func _immune():
@@ -140,6 +153,7 @@ func _stand():
 	if is_crouching == false:
 		return
 	is_crouching = false
+	can_take_damage = true
 	velocity.y = speed
 
 func _attack():
@@ -150,7 +164,6 @@ func _attack():
 		anim_p.play("Attack")
 
 func _reset_animation():
-	await anim_p.animation_finished
 	is_attacking = false
 	if is_crouching:
 		anim_p.play("Crouch")
@@ -158,18 +171,24 @@ func _reset_animation():
 		anim_p.play("RESET")
 
 func _roll():
-	can_take_damage = false
 	is_crouching = false
 	is_attacking = false
 	is_rolling = true
+	can_take_damage = false
 	anim_p.play("Roll")
 
 func _on_hit():
 	if can_take_damage:
 		current_hp2 -= damage
 		healthChanged2.emit()
+		flash()
 		if current_hp2 <= 0 and is_live:
 			_death()
+			global.score += 1
+
+func flash():
+	$Knight2D2.material.set_shader_parameter("flash_modifier", 1)
+	flash_timer.start()
 
 func _die(area):
 	if area.has_meta("Sword"):
@@ -178,12 +197,14 @@ func _die(area):
 		current_hp2 = 0
 		if is_live and current_hp2 <= 0:
 			_death()
+			global.score2 += 1
 
 func _death():
 	if is_live:
 		is_live = false
 		anim_p.play("Death")
 		velocity.x = 0
+		await anim_p.animation_finished
 		if global.lives2 >= 0:
 			global.lives2 -= 1
 			_respawn()
@@ -191,6 +212,7 @@ func _death():
 		elif global.lives2 < 0:
 			_respawn()
 			global.lives2 = 3
+			global.score = 0
 			print("died died like actually died for reals")
 
 func _not_under_object() -> bool:
@@ -208,3 +230,7 @@ func _respawn():
 	healthChanged2.emit()
 	position = Vector2(964, 281)
 	anim_p.play("RESET")
+
+
+func _on_flash_timer_timeout():
+	$Knight2D2.material.set_shader_parameter("flash_modifier", 0)
