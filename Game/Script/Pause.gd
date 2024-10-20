@@ -30,21 +30,25 @@ func esc():
 
 func _on_resume_pressed():
 	resume()
+	button_stream_player.play()
 
 
 func _on_settings_pressed():
 	panel_container.visible = false
 	options.visible = true
+	button_stream_player.play()
 
 
 func _on_exit_game_pressed():
 	animation_player.play("RESET")
 	get_tree().paused = false
+	button_stream_player.play()
 	get_tree().change_scene_to_file("res://Scene/Menu.tscn")
 	
 func on_exit_options() -> void:
 	options.visible = false
 	panel_container.visible = true
+	button_stream_player.play()
 
 func handle_connecting_signals() -> void:
 	options.exit_options_menu.connect(on_exit_options)

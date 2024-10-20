@@ -26,6 +26,7 @@ var is_rolling = false
 var can_take_damage = true
 var double_jump = true
 var is_grounded = true
+var is_knockback = false
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _ready():
@@ -66,7 +67,7 @@ func _physics_process(delta: float) -> void:
 		_immune()
 
 	# Movement and attacking logic
-	if is_live:
+	if is_live and !is_knockback:
 		if global.canmove == true:
 			var direction = Input.get_axis("Move_left", "Move_right")
 
@@ -80,7 +81,7 @@ func _physics_process(delta: float) -> void:
 				else:
 					velocity.x = direction * speed
 					if is_rolling:
-						pass
+						velocity.x = direction * speed * 2
 					elif direction != 0:
 						anim_p.play("Run")
 					else:
@@ -126,8 +127,14 @@ func _physics_process(delta: float) -> void:
 			_stand()
 			object_above = false
 
-	else:
+	elif !is_live:
 		_death()
+
+	# Knockback
+	if is_knockback:
+		velocity.x = lerp(velocity.x, 0.0, 2*delta)
+		if abs(velocity.x) < 50:
+			is_knockback = false
 
 	# Move the character
 	var was_on_floor = is_on_floor()
@@ -177,11 +184,16 @@ func _roll():
 	can_take_damage = false
 	anim_p.play("Roll")
 
-func _on_hit():
+func _on_hit(dir):
 	if can_take_damage == true:
 		current_hp -= damage
 		healthChanged.emit()
 		flash()
+		
+		velocity.x = 200 * dir
+		velocity.y = -250
+		is_knockback = true
+		
 		if current_hp <= 0 and is_live:
 			_death()
 
@@ -191,7 +203,12 @@ func flash():
 
 func _die(area):
 	if area.has_meta("Sword2"):
-		_on_hit()
+		var dir
+		if area.get_node("../..").position.x > position.x:
+			dir = -1
+		else:
+			dir = 1
+		_on_hit(dir)
 	if area.has_meta("Void"):
 		current_hp = 0
 		if is_live and current_hp <= 0:
@@ -204,15 +221,7 @@ func _death():
 		velocity.x = 0
 		global.score2 += 1
 		await anim_p.animation_finished
-		if global.lives >= 0:
-			global.lives -= 1
-			_respawn()
-			print("died")
-		elif global.lives < 0:
-			_respawn()
-			global.lives = 3
-			global.score2 = 0
-			print("died died like actually died for reals")
+		_respawn()
 
 func _not_under_object() -> bool:
 	var result = !crouch_raycast1.is_colliding() and !crouch_raycast2.is_colliding()
