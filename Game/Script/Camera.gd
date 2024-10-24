@@ -7,12 +7,13 @@ var zoom_min = 1
 var zoom_max = 1.7
 var zoom_factor = 950
 
+
 func _physics_process(_delta):
 	position = (p1.position + p2.position) / Vector2(2, 2)
 
 	var distance = p1.position.distance_to(p2.position)
 	
+	# Changes camera zoom baesd on the max, min, factor and player distances.
 	var zoom_value = max(zoom_min, min(zoom_max, zoom_factor / distance))
-	
 	zoom.x = zoom_value
 	zoom.y = zoom_value

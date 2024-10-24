@@ -13,6 +13,7 @@ shader = ExtResource("2_3f0om")
 shader_parameter/lod = 0.0
 
 [sub_resource type="Animation" id="Animation_haw0w"]
+resource_name = "Renew"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -69,7 +70,7 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gwyte"]
 _data = {
-"RESET": SubResource("Animation_haw0w"),
+"Renew": SubResource("Animation_haw0w"),
 "blur": SubResource("Animation_l0usm")
 }
 
@@ -155,6 +156,6 @@ libraries = {
 "": SubResource("AnimationLibrary_gwyte")
 }
 
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/Exit_Game" to="." method="_on_exit_game_pressed"]
+[connection signal="button_down" from="PanelContainer/VBoxContainer/Resume" to="." method="_on_resume_button_down"]
+[connection signal="button_down" from="PanelContainer/VBoxContainer/Settings" to="." method="_on_settings_button_down"]
+[connection signal="button_down" from="PanelContainer/VBoxContainer/Exit_Game" to="." method="_on_exit_game_button_down"]

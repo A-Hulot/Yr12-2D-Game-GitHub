@@ -138,7 +138,6 @@ layout_mode = 1
 [node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("8_0jl3w")
 volume_db = -10.297
-autoplay = true
 bus = &"Music"
 
 [node name="Credits" parent="." instance=ExtResource("8_2r37n")]

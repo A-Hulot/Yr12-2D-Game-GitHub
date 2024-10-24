@@ -9,7 +9,7 @@ func _ready():
 	pass # Replace with function body.
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+# Updates player score with the current global score.
 func _process(delta):
 	p1_score.text = (str(global.score))
 	p2_score.text = (str(global.score2))

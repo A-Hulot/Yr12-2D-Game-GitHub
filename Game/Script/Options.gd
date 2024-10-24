@@ -13,6 +13,7 @@ func _ready():
 	set_process(false)
 
 
+# Emits a ecit signal.
 func on_exit_pressed():
 	exit_options_menu.emit()
 	set_process(false)
